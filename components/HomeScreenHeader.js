@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import { useLayoutEffect } from "react";
-import { Text, View } from "react-native";
+import { Platform, Text, TouchableOpacity, View } from "react-native";
 import { StyleSheet, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
@@ -9,7 +9,6 @@ import {
   SearchIcon,
   AdjustmentIcon,
 } from "react-native-heroicons/outline";
-import AiOutlineDown from "react-icons/ai";
 
 const HomeScreenHeader = () => {
   return (
@@ -25,13 +24,24 @@ const HomeScreenHeader = () => {
         }}
       />
       <View style={styles.headerText} className="flex-1">
-        <Text className="font-bold text-gray-400 text-xs">Deliver Now!</Text>
+        <Text
+          style={styles.deliverNow}
+          className="font-bold text-gray-400 text-xs"
+        >
+          Deliver Now!
+        </Text>
         <View style={styles.location}>
-          <Text className="font-bold text-xl">Current Location</Text>
-          <ChevronDownIcon size={20} color="#00CCBB" />
+          <Text style={styles.currentLocation} className="font-bold text-xl">
+            Current Location
+          </Text>
+          <TouchableOpacity>
+            <ChevronDownIcon size={20} color="#00CCBB" />
+          </TouchableOpacity>
         </View>
       </View>
-      <UserIcon size={35} color="#00CCBB" />
+      <TouchableOpacity style={styles.user}>
+        <UserIcon color="#00CCBB" />
+      </TouchableOpacity>
     </View>
   );
 };
@@ -46,15 +56,33 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 50,
-    backgroundColor: "lightgrey",
+    backgroundColor: "#F2F2F2",
   },
   headerText: {
-    paddingLeft: 16,
+    paddingLeft: 8,
     flex: 1,
+  },
+  deliverNow: {
+    fontWeight: "bold",
+    color: "gray",
+    fontSize: 12,
   },
   location: {
     flexDirection: "row",
     alignItems: "center",
+  },
+  currentLocation: {
+    fontWeight: "bold",
+    fontSize: 20,
+  },
+  user: {
+    width: 40,
+    height: 40,
+    borderRadius: 50,
+    color: "#00CCBB",
+    backgroundColor: "#F2F2F2",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 
