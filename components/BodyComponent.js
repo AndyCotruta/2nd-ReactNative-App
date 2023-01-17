@@ -2,27 +2,20 @@ import { ScrollView, StyleSheet } from "react-native";
 import CategoriesComponent from "./CategoriesComponent";
 import FeaturedRowComponent from "./FeaturedRowComponent";
 
-const BodyComponent = () => {
+const BodyComponent = ({ featuredCategories }) => {
   return (
     <ScrollView style={styles.scrollview}>
       {/* ..............Categories Component................. */}
       <CategoriesComponent />
       {/* ..............Featured Rows Components............. */}
-      <FeaturedRowComponent
-        id="123"
-        title="Featured"
-        description="Paid placements from our partners"
-      />
-      <FeaturedRowComponent
-        id="1234"
-        title="Tasty Discounts"
-        description="Everyone's been enjoying these juicy discounts!"
-      />
-      <FeaturedRowComponent
-        id="12345"
-        title="Offers near you!"
-        description="Why not support your local restaurants tonight?"
-      />
+      {featuredCategories?.map((category) => (
+        <FeaturedRowComponent
+          key={category._id}
+          id={category._id}
+          title={category.name}
+          description={category.short_description}
+        />
+      ))}
     </ScrollView>
   );
 };

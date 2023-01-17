@@ -1,23 +1,45 @@
+import { useEffect, useState } from "react";
 import { ScrollView, StyleSheet } from "react-native";
+import client, { urlFor } from "../sanity";
 
 import CategoryCard from "./CategoryCard";
 
 const CategoriesComponent = () => {
+  const [categories, setCategories] = useState([]);
+
+  const fetchCategory = async () => {
+    try {
+      const response = await client.fetch(`
+  *[_type == "category"]
+  `);
+      if (response) {
+        console.log(response);
+        setCategories(response);
+      } else {
+        console.log("Error fetching categories");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCategory();
+  }, []);
+
   return (
     <ScrollView
       style={styles.categoriesContainer}
       horizontal
       showsHorizontalScrollIndicator={false}
     >
-      <CategoryCard imgUrl="https://picsum.photos/200" title="Testing 1" />
-      <CategoryCard imgUrl="https://picsum.photos/200" title="Testing 2" />
-      <CategoryCard imgUrl="https://picsum.photos/200" title="Testing 3" />
-      <CategoryCard imgUrl="https://picsum.photos/200" title="Testing 4" />
-      <CategoryCard imgUrl="https://picsum.photos/200" title="Testing 5" />
-      <CategoryCard imgUrl="https://picsum.photos/200" title="Testing 6" />
-      <CategoryCard imgUrl="https://picsum.photos/200" title="Testing 7" />
-      <CategoryCard imgUrl="https://picsum.photos/200" title="Testing 8" />
-      <CategoryCard imgUrl="https://picsum.photos/200" title="Testing 9" />
+      {categories.map((category) => (
+        <CategoryCard
+          key={category._id}
+          imgUrl={urlFor(category.image).url()}
+          title={category.name}
+        />
+      ))}
     </ScrollView>
   );
 };
