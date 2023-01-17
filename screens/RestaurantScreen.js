@@ -8,7 +8,16 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ScrollView } from "react-native";
 import { urlFor } from "../sanity";
-import { ArrowLeftIcon } from "react-native-heroicons/solid";
+import {
+  ArrowLeftIcon,
+  ChevronRightIcon,
+  StarIcon,
+} from "react-native-heroicons/solid";
+import {
+  MapPinIcon,
+  QuestionMarkCircleIcon,
+} from "react-native-heroicons/outline";
+import DishRow from "../components/DishRow";
 
 const RestaurantScreen = () => {
   const {
@@ -52,10 +61,59 @@ const RestaurantScreen = () => {
           <ArrowLeftIcon size={20} color="#00CCBB" />
         </TouchableOpacity>
       </View>
-      <View style={styles.container} className="bg-white">
-        <View>
-          <Text>{title}</Text>
+      <View style={styles.container} className=" bg-white">
+        <View style={styles.restaurantDetails} className="px-4 pt-4">
+          <Text style={styles.restaurantTitle} className="text-3xl font-bold">
+            {title}
+          </Text>
+          <View
+            style={styles.restaurantRating}
+            className="flex-row space-x-2 my-2"
+          >
+            <View
+              style={styles.restaurantRating}
+              className="flex-row items-center space-x-1"
+            >
+              <StarIcon color="green" size={22} opacity={0.5} />
+              <Text style={styles.ratingText} className="text-xs text-gray-500">
+                <Text style={styles.ratingNr} className="text-green-500">
+                  {rating}
+                </Text>{" "}
+                - {genre}
+              </Text>
+            </View>
+            <View
+              style={styles.restaurantRating}
+              className="flex-row items-center space-x-1"
+            >
+              <MapPinIcon color="gray" opacity={0.4} size={22} />
+              <Text style={styles.ratingText} className="text-xs text-gray-500">
+                Nearby - {address}
+              </Text>
+            </View>
+          </View>
+          <Text className="text-gray-500 mt-2 pb-4">{short_description}</Text>
         </View>
+        <TouchableOpacity className="flex-row items-center space-x-2 p-4 border-y border-gray-300 ">
+          <QuestionMarkCircleIcon color="gray" opacity={0.6} size={20} />
+          <Text className="pl-2 flex-1 text-md font-bold">
+            Have a food alergy?
+          </Text>
+          <ChevronRightIcon color="#00CCBB" />
+        </TouchableOpacity>
+      </View>
+      <View>
+        <Text className="px-4 pt-6 mb-3 font-bold text-xl">Menu</Text>
+        {dishes.map((dish) => (
+          <DishRow
+            key={dish._id}
+            id={dish._id}
+            name={dish.name}
+            description={dish.short_description}
+            price={dish.price}
+            image={dish.image}
+          />
+        ))}
       </View>
     </ScrollView>
   );
@@ -76,6 +134,28 @@ const styles = StyleSheet.create({
   },
   container: {
     backgroundColor: "white",
+  },
+  restaurantTitle: {
+    fontSize: 30,
+    lineHeight: 36,
+    fontWeight: "bold",
+  },
+  restaurantDetails: {
+    paddingHorizontal: 16,
+    paddingTop: 16,
+  },
+  restaurantRating: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingBottom: 4,
+  },
+  ratingNr: {
+    color: "#8BBA86",
+  },
+  ratingText: {
+    fontSize: 12,
+    color: "gray",
+    marginStart: 4,
   },
 });
 
