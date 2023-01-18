@@ -34,6 +34,16 @@ const HomeScreenHeader = () => {
           <Text style={styles.currentLocation} className="font-bold text-xl">
             Current Location
           </Text>
+          {Platform.OS === "web" && (
+            <Text
+              style={styles.forWeb}
+              onPress={() => {
+                console.log("Clicked!");
+              }}
+            >
+              This text is only for web
+            </Text>
+          )}
           <TouchableOpacity>
             <ChevronDownIcon size={20} color="#00CCBB" />
           </TouchableOpacity>
@@ -83,6 +93,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#F2F2F2",
     alignItems: "center",
     justifyContent: "center",
+  },
+  forWeb: {
+    cursor: "pointer",
+    color: "red",
   },
 });
 
