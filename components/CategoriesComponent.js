@@ -13,7 +13,6 @@ const CategoriesComponent = () => {
   *[_type == "category"]
   `);
       if (response) {
-        console.log(response);
         setCategories(response);
       } else {
         console.log("Error fetching categories");

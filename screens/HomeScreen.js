@@ -18,6 +18,7 @@ import client from "../sanity";
 const HomeScreen = () => {
   const navigation = useNavigation();
   const [featuredCategories, setfeaturedCategories] = useState([]);
+  const [restaurants, setRestaurants] = useState([]);
 
   const fetchFeaturedCategories = async () => {
     try {
@@ -29,11 +30,26 @@ const HomeScreen = () => {
   }
 }`);
       if (response) {
-        console.log(response);
-
         setfeaturedCategories(response);
       } else {
         console.log("Error while fetching featured categories");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchRestaurants = async () => {
+    try {
+      const response = await fetch(
+        "https://deliveroo-mongodb-backend-production.up.railway.app/restaurants"
+      );
+      if (response) {
+        const data = await response.json();
+        console.log(data);
+        setRestaurants(data);
+      } else {
+        console.log("Error while fetching");
       }
     } catch (error) {
       console.log(error);
@@ -48,6 +64,7 @@ const HomeScreen = () => {
 
   useEffect(() => {
     fetchFeaturedCategories();
+    fetchRestaurants();
   }, []);
 
   return (
@@ -60,6 +77,12 @@ const HomeScreen = () => {
       <HomeScreenHeader />
       {/* ..............Search Component.................. */}
       <SearchComponent />
+      {restaurants.map((restaurant) => (
+        <View>
+          <Text>{restaurant.name}</Text>
+          <Image style={styles.testImage} source={{ uri: restaurant.image }} />
+        </View>
+      ))}
       {/* ..............Body Component.................... */}
       <BodyComponent featuredCategories={featuredCategories} />
     </SafeAreaView>
@@ -70,6 +93,10 @@ const styles = StyleSheet.create({
   homescreen: {
     flex: 1,
     backgroundColor: "white",
+  },
+  testImage: {
+    width: 100,
+    height: 100,
   },
 });
 
